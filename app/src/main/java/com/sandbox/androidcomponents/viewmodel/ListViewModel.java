@@ -14,7 +14,12 @@ import java.util.List;
  */
 
 public class ListViewModel extends ViewModel {
+    private MessageHolder messageHolder;
     private MutableLiveData<List<TestMessage>> messageList;
+
+    public ListViewModel(){
+        messageHolder = new MessageHolder();
+    }
 
     public LiveData<List<TestMessage>> getMessageList(){
         if(messageList == null){
@@ -25,8 +30,12 @@ public class ListViewModel extends ViewModel {
     }
 
     private void loadMessages(){
-        MessageHolder messageHolder = new MessageHolder();
         List<TestMessage> receivedMessages = messageHolder.getMessageList();
         messageList.postValue(receivedMessages);
+    }
+
+    public void addMessageToList(TestMessage message){
+        messageHolder.addMessage(message);
+        messageList.postValue(messageHolder.getMessageList());
     }
 }

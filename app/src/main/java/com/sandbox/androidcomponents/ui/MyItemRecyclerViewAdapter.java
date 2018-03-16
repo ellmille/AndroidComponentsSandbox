@@ -55,6 +55,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             });
             mValues = messageList;
             result.dispatchUpdatesTo(this);
+            notifyItemInserted(messageList.size());
         }
     }
 

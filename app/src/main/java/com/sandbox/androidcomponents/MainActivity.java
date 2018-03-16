@@ -4,11 +4,13 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.sandbox.androidcomponents.data.model.TestMessage;
 import com.sandbox.androidcomponents.ui.MyItemRecyclerViewAdapter;
@@ -18,6 +20,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     MyItemRecyclerViewAdapter adapter;
+    ListViewModel model;
+    int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +35,21 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyItemRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-        ListViewModel model = ViewModelProviders.of(this).get(ListViewModel.class);
+        model = ViewModelProviders.of(this).get(ListViewModel.class);
         model.getMessageList().observe(this, new Observer<List<TestMessage>>() {
             @Override
             public void onChanged(@Nullable List<TestMessage> testMessages) {
                 //update the list
                 adapter.setList(testMessages);
+            }
+        });
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                model.addMessageToList(new TestMessage("Title" + i, "Message"));
+                i++;
             }
         });
     }
