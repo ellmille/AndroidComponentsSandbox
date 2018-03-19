@@ -1,11 +1,13 @@
 package com.sandbox.androidcomponents;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 
+import com.sandbox.androidcomponents.data.AppDatabase;
 import com.sandbox.androidcomponents.data.model.TestMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,21 +15,42 @@ import java.util.List;
  */
 
 public class MessageRepo {
-    private List<TestMessage> messageList;
+    private static MessageRepo instance;
 
-    public MessageRepo(){
-        messageList = new ArrayList<TestMessage>();
-        messageList.add(new TestMessage(0, "Title", "Message"));
-        messageList.add(new TestMessage(1, "just a message"));
+    private final AppDatabase database;
+    private MediatorLiveData<List<TestMessage>> messageList;
+
+    private MessageRepo(final AppDatabase database){
+        this.database = database;
+        messageList = new MediatorLiveData<>();
+
+        messageList.addSource(database.testMessageDao().loadAllTestMessages(), new Observer<List<TestMessage>>() {
+            @Override
+            public void onChanged(@Nullable List<TestMessage> s) {
+                if(database.getDatabaseCreated().getValue() != null){
+                    messageList.setValue(s);
+                }
+            }
+        });
     }
 
-    public LiveData<List<TestMessage>> getMessageList() {
-        final MutableLiveData<List<TestMessage>> data = new MutableLiveData<>();
-        data.setValue(messageList);
-        return data;
+    public static MessageRepo getInstance(final AppDatabase database){
+        if(instance == null){
+            synchronized (MessageRepo.class){
+                if(instance == null){
+                    instance = new MessageRepo(database);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public MutableLiveData<List<TestMessage>> getMessageList() {
+        return messageList;
     }
 
     public void addMessage(TestMessage message){
-        this.messageList.add(message);
+        database.testMessageDao().insertTestMessage(message);
+       // this.messageList.add(message);
     }
 }

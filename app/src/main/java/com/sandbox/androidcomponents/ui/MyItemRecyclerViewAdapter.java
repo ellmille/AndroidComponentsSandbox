@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.sandbox.androidcomponents.R;
 import com.sandbox.androidcomponents.data.model.TestMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,38 +25,42 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public void setList(final List<TestMessage> messageList){
-        if(mValues == null){
-            mValues = messageList;
-            notifyItemRangeInserted(0, messageList.size());
+        if(messageList != null){
+            if(mValues == null){
+                mValues = messageList;
+                notifyItemRangeInserted(0, messageList.size());
+            }else{
+                DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+                    @Override
+                    public int getOldListSize() {
+                        return mValues.size();
+                    }
+
+                    @Override
+                    public int getNewListSize() {
+                        return mValues.size();
+                    }
+
+                    @Override
+                    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                        return mValues.get(oldItemPosition).getId() ==
+                                messageList.get(newItemPosition).getId();
+                    }
+
+                    @Override
+                    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                        TestMessage newMessage = messageList.get(newItemPosition);
+                        TestMessage oldMessage = mValues.get(oldItemPosition);
+                        return newMessage.getId() == oldMessage.getId()
+                                && Objects.equals(newMessage.getMessage(), oldMessage.getMessage());
+                    }
+                });
+                mValues = messageList;
+                result.dispatchUpdatesTo(this);
+                notifyItemInserted(messageList.size());
+            }
         }else{
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return mValues.size();
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return mValues.size();
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return mValues.get(oldItemPosition).getId() ==
-                            messageList.get(newItemPosition).getId();
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    TestMessage newMessage = messageList.get(newItemPosition);
-                    TestMessage oldMessage = mValues.get(oldItemPosition);
-                    return newMessage.getId() == oldMessage.getId()
-                            && Objects.equals(newMessage.getMessage(), oldMessage.getMessage());
-                }
-            });
-            mValues = messageList;
-            result.dispatchUpdatesTo(this);
-            notifyItemInserted(messageList.size());
+            mValues = new ArrayList<TestMessage>();
         }
     }
 
