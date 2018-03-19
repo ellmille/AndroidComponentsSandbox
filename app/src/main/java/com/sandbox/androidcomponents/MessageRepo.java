@@ -50,7 +50,7 @@ public class MessageRepo {
     }
 
     public void addMessage(TestMessage message){
-        database.testMessageDao().insertTestMessage(message);
+        database.addMessage(message);
        // this.messageList.add(message);
     }
 }

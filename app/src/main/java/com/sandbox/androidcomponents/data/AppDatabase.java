@@ -13,6 +13,7 @@ import com.sandbox.androidcomponents.data.dao.TestMessageDao;
 import com.sandbox.androidcomponents.data.model.TestMessage;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * Extends database class
@@ -85,5 +86,15 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public LiveData<Boolean> getDatabaseCreated() {
         return isDatabaseCreated;
+    }
+
+    public void addMessage(final TestMessage testMessage){
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                testMessageDao().insertTestMessage(testMessage);
+            }
+        });
     }
 }

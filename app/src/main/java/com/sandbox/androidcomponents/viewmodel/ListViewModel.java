@@ -8,6 +8,7 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
 import com.sandbox.androidcomponents.MainApplication;
+import com.sandbox.androidcomponents.MessageRepo;
 import com.sandbox.androidcomponents.data.model.TestMessage;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class ListViewModel extends AndroidViewModel {
     private MediatorLiveData<List<TestMessage>> messageList;
+    private final MessageRepo messageRepo;
 
     public ListViewModel(Application application){
         super(application);
@@ -25,7 +27,8 @@ public class ListViewModel extends AndroidViewModel {
         messageList = new MediatorLiveData<>();
         messageList.setValue(null);
 
-        LiveData<List<TestMessage>> messages = ((MainApplication) application).getRepository().getMessageList();
+        messageRepo = ((MainApplication) application).getRepository();
+        LiveData<List<TestMessage>> messages = messageRepo.getMessageList();
 
         messageList.addSource(messages, new Observer<List<TestMessage>>() {
             @Override
@@ -45,10 +48,9 @@ public class ListViewModel extends AndroidViewModel {
 ////        messageList.postValue(receivedMessages);
 //    }
 //
-//    public void addMessageToList(TestMessage message){
-//        messageRepo.addMessage(message);
-//        messageList = messageRepo.getMessageList();
-////        messageHolder.addMessage(message);
-////        messageList.postValue(messageHolder.getMessageList());
-//    }
+    public void addMessageToList(TestMessage message){
+        messageRepo.addMessage(message);
+//        messageHolder.addMessage(message);
+//        messageList.postValue(messageHolder.getMessageList());
+    }
 }
