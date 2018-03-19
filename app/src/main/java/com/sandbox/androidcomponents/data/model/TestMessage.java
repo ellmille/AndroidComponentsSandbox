@@ -1,10 +1,15 @@
 package com.sandbox.androidcomponents.data.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 /**
  * Test Class
  */
 
+@Entity
 public class TestMessage {
+    @PrimaryKey
     private int id;
     private String title, message;
     private long timestamp;
