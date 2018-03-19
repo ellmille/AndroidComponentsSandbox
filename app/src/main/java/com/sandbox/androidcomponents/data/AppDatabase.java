@@ -56,8 +56,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void run() {
                         final AppDatabase database = AppDatabase.getInstance(context, executor);
                         //set some fake data
-                        final TestMessage messageOne = new TestMessage(0, "Title", "Message");
-                        final TestMessage messageTwo = new TestMessage(1, "Another Title", "another message");
+                        final TestMessage messageOne = new TestMessage("Title", "Message");
+                        final TestMessage messageTwo = new TestMessage("Another Title", "another message");
                         database.runInTransaction(new Runnable() {
                             @Override
                             public void run() {

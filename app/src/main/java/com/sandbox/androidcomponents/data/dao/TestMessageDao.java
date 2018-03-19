@@ -21,7 +21,7 @@ public interface TestMessageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertTestMessages(TestMessage... testMessages);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertTestMessage(TestMessage testMessage);
 
     @Update

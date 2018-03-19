@@ -10,19 +10,26 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class TestMessage {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String title, message;
     private long timestamp;
 
     @Ignore
-    private TestMessage(int id){
-        this.id = id;
+    private TestMessage(){
         this.timestamp = System.currentTimeMillis();
     }
 
+    @Ignore
+    public TestMessage(String title, String message){
+        this();
+        this.message = message;
+        this.title = title;
+    }
+
     public TestMessage(int id, String title, String message){
-        this(id);
+        this();
+        this.id = id;
         this.message = message;
         this.title = title;
     }

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                model.addMessageToList(new TestMessage(i, "Title" + i, "Message"));
+                model.addMessageToList(new TestMessage("Title" + i, "Message" + i));
                 i++;
             }
         });
