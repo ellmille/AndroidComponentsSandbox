@@ -14,8 +14,8 @@ public class MessageHolder {
 
     public MessageHolder(){
         messageList = new ArrayList<TestMessage>();
-        messageList.add(new TestMessage("Title", "Message"));
-        messageList.add(new TestMessage("just a message"));
+        messageList.add(new TestMessage(0, "Title", "Message"));
+        messageList.add(new TestMessage(1, "just a message"));
     }
 
     public List<TestMessage> getMessageList(){

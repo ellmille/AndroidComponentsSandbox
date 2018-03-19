@@ -5,19 +5,25 @@ package com.sandbox.androidcomponents.data.model;
  */
 
 public class TestMessage {
+    private int id;
     private String title, message;
     private long timestamp;
 
-    private TestMessage(){
+    private TestMessage(int id){
+        this.id = id;
         this.timestamp = System.currentTimeMillis();
     }
-    public TestMessage(String message){
-        this();
+    public TestMessage(int id, String message){
+        this(id);
         this.message = message;
     }
-    public TestMessage(String title, String message){
-        this(message);
+    public TestMessage(int id, String title, String message){
+        this(id, message);
         this.title = title;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {

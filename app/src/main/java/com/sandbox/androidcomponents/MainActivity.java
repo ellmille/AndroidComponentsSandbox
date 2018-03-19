@@ -21,7 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     MyItemRecyclerViewAdapter adapter;
     ListViewModel model;
-    int i = 0;
+    int i = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                model.addMessageToList(new TestMessage("Title" + i, "Message"));
+                model.addMessageToList(new TestMessage(i, "Title" + i, "Message"));
                 i++;
             }
         });

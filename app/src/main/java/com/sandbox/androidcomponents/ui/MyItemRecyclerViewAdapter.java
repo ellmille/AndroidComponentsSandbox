@@ -41,15 +41,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return mValues.get(oldItemPosition).getMessage() ==
-                            messageList.get(newItemPosition).getMessage();
+                    return mValues.get(oldItemPosition).getId() ==
+                            messageList.get(newItemPosition).getId();
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     TestMessage newMessage = messageList.get(newItemPosition);
                     TestMessage oldMessage = mValues.get(oldItemPosition);
-                    return newMessage.getTitle() == oldMessage.getTitle()
+                    return newMessage.getId() == oldMessage.getId()
                             && Objects.equals(newMessage.getMessage(), oldMessage.getMessage());
                 }
             });
