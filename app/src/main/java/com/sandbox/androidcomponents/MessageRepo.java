@@ -1,5 +1,6 @@
 package com.sandbox.androidcomponents;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
@@ -52,5 +53,9 @@ public class MessageRepo {
     public void addMessage(TestMessage message){
         database.addMessage(message);
        // this.messageList.add(message);
+    }
+
+    public LiveData<TestMessage> loadMessage(final int messageId){
+        return database.testMessageDao().loadTestMessage(messageId);
     }
 }

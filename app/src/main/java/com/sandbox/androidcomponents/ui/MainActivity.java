@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.sandbox.androidcomponents.R;
 import com.sandbox.androidcomponents.data.model.TestMessage;
-import com.sandbox.androidcomponents.ui.ItemClickCallback;
-import com.sandbox.androidcomponents.ui.MyItemRecyclerViewAdapter;
 import com.sandbox.androidcomponents.viewmodel.ListViewModel;
 
 import java.util.List;
@@ -81,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showTestMessage(TestMessage testMessage){
-        //start fragment to show test message
+        //todo: start fragment to show test message
         Toast.makeText(this, testMessage.getMessage(), Toast.LENGTH_SHORT).show();
+//        MessageFragment messageFragment = MessageFragment.forMessage(testMessage.getId());
+//        getSupportFragmentManager().beginTransaction().add(messageFragment, "TAG").commit();
     }
 
     private final ItemClickCallback itemClickCallback = new ItemClickCallback() {

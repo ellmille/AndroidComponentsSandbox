@@ -32,4 +32,7 @@ public interface TestMessageDao {
 
     @Query("SELECT * FROM TestMessage")
     public LiveData<List<TestMessage>> loadAllTestMessages();
+
+    @Query("SELECT * FROM TestMessage WHERE id=:id")
+    public LiveData<TestMessage> loadTestMessage(int id);
 }
