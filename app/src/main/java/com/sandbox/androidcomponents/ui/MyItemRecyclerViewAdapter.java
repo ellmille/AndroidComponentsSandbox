@@ -1,14 +1,14 @@
 package com.sandbox.androidcomponents.ui;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sandbox.androidcomponents.R;
 import com.sandbox.androidcomponents.data.model.TestMessage;
+import com.sandbox.androidcomponents.databinding.ListItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,23 +66,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
-        return new ViewHolder(view);
+        ListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.list_item, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getTitle());
-        holder.mContentView.setText(mValues.get(position).getMessage());
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.binding.setMessage(mValues.get(position));
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -91,21 +83,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public TestMessage mItem;
+        final ListItemBinding binding;
 
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mIdView =  view.findViewById(R.id.id);
-            mContentView = view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public ViewHolder(ListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
