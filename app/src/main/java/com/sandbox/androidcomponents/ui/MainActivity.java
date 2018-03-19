@@ -1,4 +1,4 @@
-package com.sandbox.androidcomponents;
+package com.sandbox.androidcomponents.ui;
 
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sandbox.androidcomponents.R;
 import com.sandbox.androidcomponents.data.model.TestMessage;
 import com.sandbox.androidcomponents.ui.ItemClickCallback;
 import com.sandbox.androidcomponents.ui.MyItemRecyclerViewAdapter;
