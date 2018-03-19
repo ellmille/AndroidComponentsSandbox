@@ -1,5 +1,6 @@
 package com.sandbox.androidcomponents;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sandbox.androidcomponents.data.model.TestMessage;
+import com.sandbox.androidcomponents.ui.ItemClickCallback;
 import com.sandbox.androidcomponents.ui.MyItemRecyclerViewAdapter;
 import com.sandbox.androidcomponents.viewmodel.ListViewModel;
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.list);
-        adapter = new MyItemRecyclerViewAdapter();
+        adapter = new MyItemRecyclerViewAdapter(itemClickCallback);
         recyclerView.setAdapter(adapter);
 
         model = ViewModelProviders.of(this).get(ListViewModel.class);
@@ -75,4 +78,18 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void showTestMessage(TestMessage testMessage){
+        //start fragment to show test message
+        Toast.makeText(this, testMessage.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private final ItemClickCallback itemClickCallback = new ItemClickCallback() {
+        @Override
+        public void onClick(TestMessage message) {
+            if(getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)){
+                showTestMessage(message);
+            }
+        }
+    };
 }

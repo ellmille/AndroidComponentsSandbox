@@ -1,6 +1,7 @@
 package com.sandbox.androidcomponents.ui;
 
 import android.databinding.DataBindingUtil;
+import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     private List<TestMessage> mValues;
 
-    public MyItemRecyclerViewAdapter() {
+    @Nullable
+    private final ItemClickCallback itemClickCallback;
+
+    public MyItemRecyclerViewAdapter(@Nullable ItemClickCallback itemClickCallback) {
+        this.itemClickCallback = itemClickCallback;
     }
 
     public void setList(final List<TestMessage> messageList){
@@ -68,6 +73,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.list_item, parent, false);
+        binding.setCallback(itemClickCallback);
         return new ViewHolder(binding);
     }
 

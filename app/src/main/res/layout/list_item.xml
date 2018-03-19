@@ -5,12 +5,16 @@
         <variable
             name="message"
             type="com.sandbox.androidcomponents.data.model.TestMessage"/>
+        <variable
+            name="callback"
+            type="com.sandbox.androidcomponents.ui.ItemClickCallback"/>
     </data>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="@{() -> callback.onClick(message)}">
 
         <TextView
             android:id="@+id/id"
